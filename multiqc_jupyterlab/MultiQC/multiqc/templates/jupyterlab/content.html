@@ -1,0 +1,47 @@
+{# #######################
+  content.html
+##########################
+
+This block prints the main content of the report - it should loop through
+the output from each module and print it in sections.
+
+#}
+
+{% for section in report.modules_output['sections'] %}
+  <div id="mqc-module-section-{{ report.modules_output['anchor'] }}" class="mqc-module-section">
+        {% if section['print_section'] %}
+          <div class="mqc-section mqc-section-{{ report.modules_output['anchor'] }}">
+            {% if section['plot'] is not none %}<div class="mqc-section-plot">{{ section['plot'] }}</div>{% endif %}
+            {{ section['content'] if section['content'] }}
+            {{ '<hr>' if not loop.last }}
+          </div>
+        {% endif %}
+    {% if loop.first %}
+    </div>
+    {% endif %}
+  </div>
+  {{ '<hr>' if not loop.last }}
+{% endfor %}
+
+<script type="text/javascript">
+// Execute when page load has finished loading
+$(function () {
+  $('.mqc-nav li a').click(function(e){
+    e.preventDefault();
+    var target = '#mqc-module-section-'+$(this).attr('href').substr(1);
+    if($(this).hasClass('nav-l2')){
+      target = '#mqc-module-section-'+$(this).parent().parent().parent().find('a.nav-l1').attr('href').substr(1);
+    }
+    // If element not found, try using raw id (eg. #general_stats)
+    if($(target).length == 0){ target = $(this).attr('href'); }
+    if($(target).length == 0){ return false; } // give up
+    $('.mqc-module-section').hide();
+    $(target).show();
+    window.location.href = $(this).attr('href');
+    $(target+' .hc-plot.not_rendered').each(function(){
+      var target = $(this).attr('id');
+      plot_graph(target);
+    });
+  });
+});
+</script>

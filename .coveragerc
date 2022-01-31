@@ -1,0 +1,2 @@
+[run]
+omit = multiqc_jupyterlab/tests/*
