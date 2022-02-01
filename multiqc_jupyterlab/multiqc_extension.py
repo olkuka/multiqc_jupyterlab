@@ -6,7 +6,6 @@
 
 from ipywidgets import DOMWidget, Output
 from IPython.display import display, HTML
-# from traitlets import Unicode
 from ._frontend import module_name, module_version
 
 import multiqc
@@ -26,6 +25,7 @@ class MultiQC(DOMWidget):
 
         print("MultiQC initialized in JupyterLab. Usage: \n"
               "- load(data_dir, file_list, overwrite) \t- load new data, \n"
+              "- add(multiqc_data) \t\t\t- add data directly from MultiQC run, \n"
               "- get_modules() \t\t\t- get a list of available modules, \n"
               "- get_samples(module) \t\t\t- get list of samples for a given module, \n"
               "- show(module, samples) \t\t- see the report for a given module and list of samples.")
