@@ -3,18 +3,49 @@
 
 JupyterLab extension for MultiQC
 
-## Installation
-
-You can install using `pip`:
+## Installation guide
 
 ```bash
-pip install multiqc_jupyterlab
+conda create -n multiqc_jupyterlab_env -c conda-forge nodejs yarn python jupyterlab
+conda activate multiqc_jupyterlab_env
+git clone https://github.com/olkuka/multiqc_jupyterlab.git
+cd multiqc_jupyterlab/multiqc_jupyterlab/MultiQC/
+pip install .
+cd ..
+cd .. 
+pip install .
 ```
 
-If you are using Jupyter Notebook 5.2 or earlier, you may also need to enable
-the nbextension:
+## Usage 
+The extension allows you to display MultiQC in one JupyterLab notebook cell for a given module and list of samples.
+
+### Initialization 
+To initialize MultiQC widget:
 ```bash
-jupyter nbextension enable --py [--sys-prefix|--user|--system] multiqc_jupyterlab
+from multiqc_jupyterlab import MultiQC
+
+m = MultiQC()
+```
+
+### Data
+You can load data directly from analysis directory as in MultiQC or add data that is prepared by MultiQC and stored in multiqc_data/multiqc_data.json file.
+```bash
+m.load('./data') # load raw data from analysis directory
+
+m.add('./multiqc_data') # add data prepared by MultiQC 
+```
+
+### Show available modules or samples
+```bash
+m.get_modules() # to see available modules
+
+m.get_samples(module) # too see available samples for a given module 
+```
+
+### Show module
+To see a module for a given subset of samples (not only from one analysis):
+```bash
+m.show(module, list_of_samples)
 ```
 
 ## Development Installation
